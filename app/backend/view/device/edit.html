@@ -1,0 +1,64 @@
+{extend name="common/layout" /}
+ 
+{block name="body"}
+<form class="layui-form">
+    <!-- 主体内容 -->
+    <div class="wait-body-content">
+        <!-- 进出类别 -->
+        <div class="layui-form-item">
+            <label for="type" class="layui-form-label"><span class="asterisk">*</span>进出类别：</label>
+            <div class="layui-input-block">
+                <select id="type" name="type" lay-verify="required">
+                    <option value="">请选择</option>
+					{foreach $type as $k=>$v}
+                    <option value="{$k}" {if $detail.type==$k}selected{/if}>{$v}</option>
+					{/foreach}
+                </select>
+            </div>
+        </div>
+        <!-- 识别类型 -->
+        <div class="layui-form-item">
+            <label for="category" class="layui-form-label"><span class="asterisk">*</span>识别类型：</label>
+            <div class="layui-input-block">
+                <select id="category" name="category" lay-verify="required">
+                    <option value="">请选择</option>
+					{foreach $category as $k=>$v}
+                    <option value="{$k}" {if $detail.category==$k}selected{/if}>{$v}</option>
+					{/foreach}
+                </select>
+            </div>
+        </div>
+        <!-- 设备ID -->
+        <div class="layui-form-item">
+            <label for="sn" class="layui-form-label"><span class="asterisk">*</span>设备ID：</label>
+            <div class="layui-input-block">
+                <input type="text" id="sn" name="sn" autocomplete="off" value="{$detail.sn}"
+                    class="layui-input" lay-verType="tips" lay-verify="required">
+            </div>
+        </div>
+        <!-- 是否显示: [0=否, 1=是] -->
+        <div class="layui-form-item">
+            <label class="layui-form-label"><span class="asterisk">*</span>是否显示:</label>
+            <div class="layui-input-block">
+                <input type="radio" name="is_show" value="1" title="是" {if $detail.is_show==1}checked{/if}>
+                <input type="radio" name="is_show" value="0" title="否" {if $detail.is_show==0}checked{/if}>
+            </div>
+        </div>
+        <!-- 备注 -->
+        <div class="layui-form-item">
+            <label for="remark" class="layui-form-label">备注：</label>
+            <div class="layui-input-block">
+                <input type="text" id="remark" name="remark" autocomplete="off" value="{$detail.remark}"
+                    class="layui-input" lay-verType="tips">
+            </div>
+        </div>
+    </div>
+
+    <!-- 提交按钮 -->
+    <div class="wait-body-footer">
+        <a class="layui-layer-btn0" lay-submit lay-filter="addForm">确定</a>
+        <a class="layui-layer-btn1" id="closePopupWindow">取消</a>
+    </div>
+</form>
+{/block}
+

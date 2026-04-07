@@ -1,0 +1,70 @@
+{extend name="common/layout" /}
+{block name="body"}
+<div class="container">
+	 <div class="layui-card">
+		<div class="layui-card-body" style="padding-bottom: 0;">
+			<div class="layui-btn-container">
+				<a  class="layui-btn layui-btn-sm" href="{:url('index')}">按班次统计</a> 
+				<a  class="layui-btn  layui-btn-sm" href="{:url('dateStat')}">按日统计</a> 
+				<a  class="layui-btn  layui-btn-sm" href="{:url('monthStat')}">按月统计</a> 
+				<a  class="layui-btn  layui-btn-sm" href="{:url('yearStat')}">按年统计</a> 
+			</div>
+		</div>
+	</div>
+    <!-- 搜索栏 -->
+    <form class="layui-form layui-search">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label for="name" class="layui-form-label">月份：</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="sailing_date" name="sailing_date"    class="layui-input" placeholder="请输入年份" autocomplete="off">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-sm layui-btn-default" lay-submit lay-filter="search">查询</a>
+                <a class="layui-btn layui-btn-sm layui-btn-primary" lay-submit lay-filter="clear-search">重置</a>
+				<a class="layui-btn layui-btn-sm layui-btn-default export" >导出</a>
+            </div>
+        </div>
+    </form>
+    <!-- 表格栏 -->
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <table id="wait-table-list" lay-filter="wait-table-list"></table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script>
+    layui.use(['laydate'],function() {
+		layui.laydate.render({elem: '#sailing_date', type: 'year', range: '至',trigger: 'click'});
+        // 渲染表格
+        let table = waitUtil.table({
+            elem: '#wait-table-list'
+            ,url: '{:route("Sailing/yearStat")}'
+			,toolbar:false
+            ,defaultToolbar: false
+			,height:'full-210'
+            ,cols: [[
+                {type:"numbers",title:'序号', width:60, align:'center'},
+				{field:'sailing_date', title:'年份', align:'center'},
+                {field:'car_num', title:'车次', align:'center'},
+				{field:'human_num', title:'人次', align:'center'},
+            ]]
+        });
+		
+		$('.export').click(function(){
+			exportData(layui.form.val('layui-search'),'{:route("Sailing/exportYearStat")}',10000);
+		})
+        // 逻辑事件
+        waitUtil.event({
+
+
+        });
+        // 搜索事件
+        waitUtil.search(table);
+    });
+
+</script>
+{/block}
